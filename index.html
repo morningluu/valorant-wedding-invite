@@ -13,15 +13,15 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23A11228'/%3E%3Cpath d='M76 24 46 72 24 36h18l4 8 12-20z' fill='%23EAC381'/%3E%3C/svg%3E">
 <style>
   /* ============ 设计系统 ============
-     主题：红纸喜帖 × 无畏契约，极简排印海报
-     单一强调色：烫金，全页锁定；无印章、无边框装饰
-     图层 z-index：poster 1 / watermark 0 / mute 30 / cover 40 / grain 60 */
+     主题：红纸喜帖 × 无畏契约，海报式排印
+     节奏：对齐逐段变化（左→中→左→右），字号落差 12px 至 84px，间距故意不等
+     单一强调色：烫金；图层 z-index：poster 1 / mute 30 / cover 40 / grain 60 */
   :root{
     --paper:#A11228;   /* 红纸面 */
     --paper-hi:#B41E34;
     --paper-deep:#8A0F21;
     --ink:#F6E7C9;     /* 正文纸色字（对比度 6.6:1） */
-    --ink-dim:#E2C79E; /* 次级标签（对比度 4.9:1） */
+    --ink-dim:#E2C79E; /* 次级（对比度 4.9:1） */
     --gold:#EAC381;    /* 唯一强调色（大字号 4.3:1） */
     --gold-dim:#C89B5E;
     --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC","STSong","SimSun",serif;
@@ -64,46 +64,63 @@
   }
   @keyframes hint{0%,100%{opacity:.5}50%{opacity:1}}
 
-  /* ============ 内页：排印海报 ============ */
+  /* ============ 内页：海报式排印 ============ */
   .poster{
     position:relative;z-index:1;
     max-width:480px;margin:0 auto;min-height:100dvh;
-    padding:calc(30px + env(safe-area-inset-top)) 28px 56px;
+    padding:calc(30px + env(safe-area-inset-top)) 28px 72px;
   }
+
+  /* 节拍 1：字标（左对齐，右留白） */
   .head .vlogo{width:150px;fill:var(--gold)}
 
-  .hero{margin-top:52px}
-  .hero h1{
-    font-family:var(--sans);font-weight:900;font-size:21px;letter-spacing:.02em;color:var(--ink);
+  /* 节拍 2：标题群（左对齐，大留白后进入） */
+  .hero{margin-top:64px}
+  .hero .en{
+    font-family:var(--sans);font-size:12px;font-weight:600;
+    letter-spacing:.18em;text-indent:.18em;color:var(--ink-dim);
   }
-  .hero .cn{margin-top:12px;font-size:27px;font-weight:900;letter-spacing:.08em;color:var(--gold)}
+  .hero .cn{
+    margin-top:14px;font-size:40px;font-weight:900;letter-spacing:.04em;
+    color:var(--gold);line-height:1.35;
+  }
 
-  .rule{width:48px;height:3px;background:var(--gold);margin:36px 0 0}
+  /* 节拍 3：楷体正文（居中，节奏转折） */
+  .kai{
+    margin-top:44px;text-align:center;
+    font-family:var(--kai);font-size:19px;font-weight:700;line-height:2.1;color:var(--ink);
+  }
 
-  .kai{margin-top:26px;font-family:var(--kai);font-size:18px;font-weight:700;line-height:2;color:var(--ink)}
-
-  /* ---------- 关键信息：大数字排印 ---------- */
-  .info{position:relative;margin-top:44px}
+  /* 节拍 4：信息高潮（左对齐网格，巨号时间对阵地点） */
+  .info{position:relative;margin-top:64px}
   .info::before{
-    content:"";position:absolute;right:-70px;top:-30px;z-index:0;width:300px;height:300px;
+    content:"";position:absolute;right:-80px;top:-46px;z-index:0;width:320px;height:320px;
     background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M23.792 2.152a.252.252 0 0 0-.098.083c-3.384 4.23-6.769 8.46-10.15 12.69-.107.093-.025.288.119.265 2.439.003 4.877 0 7.316.001a.66.66 0 0 0 .552-.25c.774-.967 1.55-1.934 2.324-2.903a.72.72 0 0 0 .144-.49c-.002-3.077 0-6.153-.003-9.23.016-.11-.1-.206-.204-.167zM.077 2.166c-.077.038-.074.132-.076.205.002 3.074.001 6.15.001 9.225a.679.679 0 0 0 .158.463l7.64 9.55c.12.152.308.25.505.247 2.455 0 4.91.003 7.365 0 .142.02.222-.174.116-.265C10.661 15.176 5.526 8.766.4 2.35c-.08-.094-.174-.272-.322-.1' fill='%23EAC381'/%3E%3C/svg%3E") no-repeat;
-    background-size:contain;opacity:.07;pointer-events:none;
+    background-size:contain;opacity:.08;pointer-events:none;
   }
-  .info .row{position:relative;z-index:1;margin-top:26px}
-  .info .row:first-child{margin-top:0}
-  .info .k{display:block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.3em;color:var(--ink-dim);margin-bottom:6px}
-  .info .v{font-weight:900;letter-spacing:.02em}
-  .info .v.num{font-variant-numeric:tabular-nums}
-  .row.date .v{font-size:31px;color:var(--ink)}
-  .row.lunar .v{font-size:21px;color:var(--ink)}
-  .row.time .v{font-size:64px;line-height:1.05;color:var(--gold)}
-  .row.addr .v{font-size:24px;color:var(--ink)}
+  .info .meta{
+    position:relative;z-index:1;
+    display:flex;flex-wrap:wrap;gap:10px 30px;
+    font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--ink-dim);
+    padding-bottom:14px;border-bottom:1px solid rgba(232,197,129,.35);
+  }
+  .info .meta b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;margin-left:8px}
+  .info .main{
+    position:relative;z-index:1;
+    margin-top:18px;display:grid;grid-template-columns:auto 1fr;
+    gap:4px 22px;align-items:center;
+  }
+  .info .time{
+    font-size:84px;font-weight:900;line-height:.95;letter-spacing:.01em;
+    color:var(--gold);font-variant-numeric:tabular-nums;
+  }
+  .info .place{font-size:23px;font-weight:900;color:var(--ink);line-height:1.5;letter-spacing:.04em}
 
-  /* ---------- 收尾 ---------- */
-  .statement{margin-top:56px}
-  .statement p{font-weight:900;letter-spacing:.05em}
-  .statement .l1{font-size:23px;color:var(--ink)}
-  .statement .l2{margin-top:8px;font-size:36px;color:var(--gold);line-height:1.3}
+  /* 节拍 5：收尾宣言（右对齐，全页节奏收束） */
+  .statement{margin-top:76px;text-align:right}
+  .statement .l1{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:.06em}
+  .statement .l2{margin-top:8px;font-size:33px;font-weight:900;color:var(--gold);letter-spacing:.05em;line-height:1.3}
+
   /* ---------- 音乐开关 ---------- */
   .mute{
     position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:30;
@@ -130,15 +147,22 @@
   @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
   /* ---------- 响应式 ---------- */
+  @media (max-width:409px){
+    .info .main{grid-template-columns:1fr;gap:10px}
+  }
   @media (min-width:768px){
     .poster{max-width:520px;padding-top:calc(44px + env(safe-area-inset-top))}
     .head .vlogo{width:168px}
-    .hero h1{font-size:24px}
-    .hero .cn{font-size:30px}
-    .row.date .v{font-size:34px}
-    .row.time .v{font-size:72px}
-    .statement .l1{font-size:26px}
-    .statement .l2{font-size:40px}
+    .hero{margin-top:80px}
+    .hero .en{font-size:13px}
+    .hero .cn{font-size:46px}
+    .kai{font-size:21px}
+    .info{margin-top:76px}
+    .info .time{font-size:96px}
+    .info .place{font-size:26px}
+    .statement{margin-top:92px}
+    .statement .l1{font-size:25px}
+    .statement .l2{font-size:38px}
   }
 
   /* ---------- 无障碍 ---------- */
@@ -166,37 +190,30 @@
     </header>
 
     <section class="hero">
-      <h1 class="reveal" style="--d:500">🌹Let's play a valorant🌹</h1>
-      <p class="cn reveal" style="--d:580">❤️～我们打瓦啦～❤️</p>
+      <p class="en reveal" style="--d:500">🌹Let's play a valorant🌹</p>
+      <h1 class="cn reveal" style="--d:560">❤️～我们打瓦啦～❤️</h1>
     </section>
 
-    <div class="rule reveal" style="--d:660" aria-hidden="true"></div>
-
-    <section class="kai reveal" style="--d:660">
+    <section class="kai reveal" style="--d:640">
       <p>🌆喜相逢佳期已定，敬备喜筵</p>
       <p>诚邀您一起上号打瓦🌆</p>
     </section>
 
     <section class="info">
-      <div class="row date reveal" style="--d:740">
-        <span class="k">日期</span><span class="v num">2026.10.15</span>
+      <div class="meta reveal" style="--d:720">
+        <span>日期<b>2026.10.15</b></span>
+        <span>农历<b>丙午年九月初六</b></span>
       </div>
-      <div class="row lunar reveal" style="--d:800">
-        <span class="k">农历</span><span class="v">丙午年九月初六</span>
-      </div>
-      <div class="row time reveal" style="--d:860">
-        <span class="k">时间</span><span class="v num">20:00</span>
-      </div>
-      <div class="row addr reveal" style="--d:920">
-        <span class="k">地址</span><span class="v">莲花古城卷帘门</span>
+      <div class="main reveal" style="--d:780">
+        <span class="time">20:00</span>
+        <span class="place">莲花古城<br>卷帘门</span>
       </div>
     </section>
 
-    <section class="statement reveal" style="--d:980">
+    <section class="statement reveal" style="--d:860">
       <p class="l1">想跟你一起</p>
       <p class="l2">暴力殴打对手</p>
     </section>
-
   </main>
 
   <button class="mute" id="mute" type="button" aria-pressed="false" aria-label="音乐开关">
