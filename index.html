@@ -13,8 +13,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23A11228'/%3E%3Cpath d='M76 24 46 72 24 36h18l4 8 12-20z' fill='%23EAC381'/%3E%3C/svg%3E">
 <style>
   /* ============ 设计系统 ============
-     主题：红纸喜帖 × 无畏契约，海报式排印
-     节奏：对齐逐段变化（左→中→左→右），字号落差 12px 至 84px，间距故意不等
+     主题：红纸喜帖 × 无畏契约，一屏一景的翻页式 h5 请柬
+     结构：四屏四拍（身份→正文→高潮→收尾），每屏一个主元素，滚动渐显
      单一强调色：烫金；图层 z-index：poster 1 / mute 30 / cover 40 / grain 60 */
   :root{
     --paper:#A11228;   /* 红纸面 */
@@ -64,62 +64,74 @@
   }
   @keyframes hint{0%,100%{opacity:.5}50%{opacity:1}}
 
-  /* ============ 内页：海报式排印 ============ */
+  /* ============ 内页：一屏一景 ============ */
   .poster{
     position:relative;z-index:1;
-    max-width:480px;margin:0 auto;min-height:100dvh;
-    padding:calc(30px + env(safe-area-inset-top)) 28px 72px;
+    max-width:480px;margin:0 auto;
+    padding:calc(24px + env(safe-area-inset-top)) 28px 0;
   }
 
-  /* 节拍 1：字标（左对齐，右留白） */
-  .head .vlogo{width:150px;fill:var(--gold)}
-
-  /* 节拍 2：标题群（左对齐，大留白后进入） */
-  .hero{margin-top:64px}
-  .hero .en{
-    font-family:var(--sans);font-size:12px;font-weight:600;
-    letter-spacing:.18em;text-indent:.18em;color:var(--ink-dim);
+  .beat{
+    min-height:100dvh;
+    display:flex;flex-direction:column;
+    opacity:0;transform:translateY(28px);
+    transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
   }
-  .hero .cn{
-    margin-top:14px;font-size:40px;font-weight:900;letter-spacing:.04em;
-    color:var(--gold);line-height:1.35;
+  .beat.in{opacity:1;transform:none}
+
+  /* --- 屏 1：身份（字标居顶，标题居中） --- */
+  .s1 .head .vlogo{width:150px;fill:var(--gold)}
+  .s1c{
+    flex:1;display:flex;flex-direction:column;justify-content:center;
+    padding-bottom:6vh;
+  }
+  .s1c .en{
+    font-family:var(--sans);font-size:13px;font-weight:600;
+    letter-spacing:.16em;text-indent:.16em;color:var(--ink-dim);
+  }
+  .s1c .cn{
+    margin-top:18px;
+    font-size:clamp(42px,13vw,56px);font-weight:900;letter-spacing:.03em;
+    color:var(--gold);line-height:1.4;
   }
 
-  /* 节拍 3：楷体正文（居中，节奏转折） */
-  .kai{
-    margin-top:44px;text-align:center;
-    font-family:var(--kai);font-size:19px;font-weight:700;line-height:2.1;color:var(--ink);
+  /* --- 屏 2：正文（楷体居中，大留白） --- */
+  .s2{align-items:center;justify-content:center;text-align:center}
+  .s2 .kai{
+    font-family:var(--kai);font-size:21px;font-weight:700;line-height:2.6;color:var(--ink);
   }
 
-  /* 节拍 4：信息高潮（左对齐网格，巨号时间对阵地点） */
-  .info{position:relative;margin-top:64px}
-  .info::before{
-    content:"";position:absolute;right:-80px;top:-46px;z-index:0;width:320px;height:320px;
+  /* --- 屏 3：高潮（时间压顶的信息簇） --- */
+  .s3{position:relative;align-items:center;justify-content:center;text-align:center}
+  .s3::before{
+    content:"";position:absolute;left:50%;top:50%;z-index:0;
+    transform:translate(-50%,-50%);
+    width:340px;height:340px;
     background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M23.792 2.152a.252.252 0 0 0-.098.083c-3.384 4.23-6.769 8.46-10.15 12.69-.107.093-.025.288.119.265 2.439.003 4.877 0 7.316.001a.66.66 0 0 0 .552-.25c.774-.967 1.55-1.934 2.324-2.903a.72.72 0 0 0 .144-.49c-.002-3.077 0-6.153-.003-9.23.016-.11-.1-.206-.204-.167zM.077 2.166c-.077.038-.074.132-.076.205.002 3.074.001 6.15.001 9.225a.679.679 0 0 0 .158.463l7.64 9.55c.12.152.308.25.505.247 2.455 0 4.91.003 7.365 0 .142.02.222-.174.116-.265C10.661 15.176 5.526 8.766.4 2.35c-.08-.094-.174-.272-.322-.1' fill='%23EAC381'/%3E%3C/svg%3E") no-repeat;
     background-size:contain;opacity:.08;pointer-events:none;
   }
-  .info .meta{
-    position:relative;z-index:1;
-    display:flex;flex-wrap:wrap;gap:10px 30px;
-    font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--ink-dim);
-    padding-bottom:14px;border-bottom:1px solid rgba(232,197,129,.35);
+  .climax{position:relative;z-index:1}
+  .climax .time{
+    font-size:clamp(84px,27vw,112px);font-weight:900;line-height:1;
+    color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:.01em;
   }
-  .info .meta b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;margin-left:8px}
-  .info .main{
-    position:relative;z-index:1;
-    margin-top:18px;display:grid;grid-template-columns:auto 1fr;
-    gap:4px 22px;align-items:center;
+  .climax .date{
+    margin-top:22px;font-size:30px;font-weight:900;color:var(--ink);
+    font-variant-numeric:tabular-nums;letter-spacing:.06em;
   }
-  .info .time{
-    font-size:84px;font-weight:900;line-height:.95;letter-spacing:.01em;
-    color:var(--gold);font-variant-numeric:tabular-nums;
+  .climax .lunar{
+    margin-top:8px;font-size:13px;letter-spacing:.18em;text-indent:.18em;color:var(--ink-dim);
   }
-  .info .place{font-size:23px;font-weight:900;color:var(--ink);line-height:1.5;letter-spacing:.04em}
+  .climax .hair{width:48px;height:1px;background:rgba(232,197,129,.5);margin:26px auto}
+  .climax .place{font-size:23px;font-weight:900;color:var(--ink);letter-spacing:.06em}
 
-  /* 节拍 5：收尾宣言（右对齐，全页节奏收束） */
-  .statement{margin-top:76px;text-align:right}
-  .statement .l1{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:.06em}
-  .statement .l2{margin-top:8px;font-size:33px;font-weight:900;color:var(--gold);letter-spacing:.05em;line-height:1.3}
+  /* --- 屏 4：收尾（右下角宣言） --- */
+  .s4{justify-content:flex-end;align-items:flex-end;text-align:right;padding-bottom:9vh}
+  .s4 .l1{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:.06em}
+  .s4 .l2{
+    margin-top:10px;font-size:clamp(32px,9.5vw,42px);font-weight:900;
+    color:var(--gold);letter-spacing:.05em;line-height:1.3;
+  }
 
   /* ---------- 音乐开关 ---------- */
   .mute{
@@ -138,38 +150,21 @@
   .mute.on .speaker{display:none}
   @keyframes eq{0%,100%{height:4px}50%{height:14px}}
 
-  /* ---------- 入场揭示 ---------- */
-  .reveal{opacity:0}
-  body.opened .reveal{
-    animation:rise .85s cubic-bezier(.16,1,.3,1) both;
-    animation-delay:calc(var(--d,0) * 1ms);
-  }
-  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-
   /* ---------- 响应式 ---------- */
-  @media (max-width:409px){
-    .info .main{grid-template-columns:1fr;gap:10px}
-  }
   @media (min-width:768px){
-    .poster{max-width:520px;padding-top:calc(44px + env(safe-area-inset-top))}
-    .head .vlogo{width:168px}
-    .hero{margin-top:80px}
-    .hero .en{font-size:13px}
-    .hero .cn{font-size:46px}
-    .kai{font-size:21px}
-    .info{margin-top:76px}
-    .info .time{font-size:96px}
-    .info .place{font-size:26px}
-    .statement{margin-top:92px}
-    .statement .l1{font-size:25px}
-    .statement .l2{font-size:38px}
+    .poster{max-width:520px}
+    .s1 .head .vlogo{width:168px}
+    .s2 .kai{font-size:23px}
+    .climax .date{font-size:34px}
+    .climax .place{font-size:26px}
+    .s4 .l1{font-size:25px}
   }
 
   /* ---------- 无障碍 ---------- */
   @media (prefers-reduced-motion:reduce){
     .cover{transition:none}
     .cover-hint,.mute.on .bars i{animation:none}
-    body.opened .reveal{animation:none;opacity:1}
+    .beat{opacity:1;transform:none;transition:none}
   }
 </style>
 </head>
@@ -183,36 +178,40 @@
   </div>
 
   <main class="poster" id="poster">
-    <header class="head reveal" style="--d:420">
-      <svg class="vlogo" viewBox="0 0 515 74" role="img" aria-label="VALORANT 无畏契约">
-        <path d="m459.10547 14.35156h18.42578l.05859 56.5c0 .72657.58985 1.32422 1.32422 1.32422l10.55078-.00781c.73438 0 1.32422-.58984 1.32422-1.32422l-.0625-56.49219h23.10938c.67969 0 1.0664-.79297.63281-1.32422l-7.91016-9.91015c-.66015-.83203-1.66406-1.3125-2.72265-1.31641h-44.73047c-.73438 0-1.32422.58985-1.32422 1.32422v9.91016c0 .71875.58984 1.3164 1.32422 1.3164m-444.73828 56.50782 54.05469-67.73438c.42578-.53125.04296-1.32422-.63672-1.32422h-13.51563c-1.05859 0-2.0664.48828-2.72656 1.31641l-38.34766 48.04687v-48.04687c0-.73438-.58984-1.32422-1.32031-1.32422h-10.55469c-.73047 0-1.32031.58984-1.32031 1.32422v67.73437c0 .73438.58984 1.32422 1.32031 1.32422h10.32422c1.0586 0 2.0586-.48437 2.72266-1.3164m38.10937 0 18.59375-23.29688 18.59375 23.29688c.66016.83203 1.66797 1.3164 2.73047 1.3164h10.32031c.73438 0 1.32422-.58984 1.32422-1.32422v-67.73437c0-.72656-.58984-1.32422-1.32422-1.32422h-8.65625c-2.12109 0-4.1289.96484-5.45703 2.625l-53.00781 66.42578c-.42578.53125-.04297 1.32422.63672 1.32422h13.51562c1.06641.00781 2.06641-.47656 2.73047-1.30859m38.35938-49.48829v31.20704l-12.45313-15.60157zm301.80859 49.47266-54.05078-67.73437c-.66016-.82813-1.66406-1.3125-2.72266-1.31641h-10.33203c-.73047 0-1.32031.58984-1.32031 1.32422v67.73437c0 .73438.58984 1.32422 1.32031 1.32422h10.32422c1.0586 0 2.06641-.48437 2.72266-1.3164l18.59375-23.29688 18.58984 23.29688c.66406.83203 1.66406 1.3164 2.72656 1.3164h13.51563c.67969 0 1.05859-.79297.63281-1.33203m-42.78906-33.86719-12.45703 15.60938v-31.21485zm-148.74609-36.9375c-20.375 0-36.89063 16.53907-36.89063 36.94532s16.51563 36.94921 36.89063 36.94921c20.3789 0 36.89453-16.54296 36.89453-36.94921.00781-20.40625-16.51563-36.94532-36.89453-36.94532m0 61.33594c-13.08985 0-23.69532-10.92187-23.69532-24.39062s10.60547-24.39844 23.69532-24.39844c13.09375 0 23.69921 10.92187 23.69921 24.39844.00782 13.46875-10.60546 24.39062-23.69921 24.39062m234.3125-58.25781v48.04687l-38.34766-48.05468c-.66406-.82813-1.66406-1.3125-2.72656-1.31641h-10.33594c-.72656 0-1.32031.58984-1.32031 1.32422v32.64062c0 .79297.26562 1.5625.76562 2.1836l10.98047 13.76172c.48438.60546 1.45703.26171 1.45703-.50782v-28.40625l38.35547 48.07032c.66016.83203 1.66406 1.3164 2.72266 1.3164h10.32422c.73046 0 1.32031-.58984 1.32031-1.32422v-67.73437c0-.72656-.58985-1.32422-1.32031-1.32422h-10.55469c-.73047 0-1.32031.59766-1.32031 1.32422m-128.94532 14.67969v-14.67969c0-.73438-.58984-1.32422-1.32031-1.32422h-54.01562c-.73047 0-1.32032.58984-1.32032 1.32422v67.73437c0 .73438.58985 1.32422 1.32032 1.32422h10.55468c.73047 0 1.32032-.58984 1.32032-1.32422v-56.49218h30.26562l-20.42969 25.60937c-.3789.47656-.3789 1.16406 0 1.65234l23.33985 29.2461c.66406.83203 1.66406 1.3164 2.72656 1.3164h13.51562c.67969 0 1.0586-.79296.63282-1.32421l-23.98828-30.05469 16.6289-20.8086c.49219-.63671.76953-1.40625.76953-2.19921m-185.27343 54.3789h31.32031c1.05859 0 2.0664-.48437 2.72265-1.3164l7.91016-9.91797c.42578-.53125.04688-1.32422-.63281-1.32422h-29.44531v-56.5c0-.73438-.58985-1.32422-1.32032-1.32422h-10.55468c-.73047 0-1.32032.58984-1.32032 1.32422v67.73437c0 .72657.59766 1.32422 1.32032 1.32422"/>
-      </svg>
-    </header>
-
-    <section class="hero">
-      <p class="en reveal" style="--d:500">🌹Let's play a valorant🌹</p>
-      <h1 class="cn reveal" style="--d:560">❤️～我们打瓦啦～❤️</h1>
-    </section>
-
-    <section class="kai reveal" style="--d:640">
-      <p>🌆喜相逢佳期已定，敬备喜筵</p>
-      <p>诚邀您一起上号打瓦🌆</p>
-    </section>
-
-    <section class="info">
-      <div class="meta reveal" style="--d:720">
-        <span>日期<b>2026.10.15</b></span>
-        <span>农历<b>丙午年九月初六</b></span>
-      </div>
-      <div class="main reveal" style="--d:780">
-        <span class="time">20:00</span>
-        <span class="place">莲花古城<br>卷帘门</span>
+    <section class="beat s1">
+      <header class="head">
+        <svg class="vlogo" viewBox="0 0 515 74" role="img" aria-label="VALORANT 无畏契约">
+          <path d="m459.10547 14.35156h18.42578l.05859 56.5c0 .72657.58985 1.32422 1.32422 1.32422l10.55078-.00781c.73438 0 1.32422-.58984 1.32422-1.32422l-.0625-56.49219h23.10938c.67969 0 1.0664-.79297.63281-1.32422l-7.91016-9.91015c-.66015-.83203-1.66406-1.3125-2.72265-1.31641h-44.73047c-.73438 0-1.32422.58985-1.32422 1.32422v9.91016c0 .71875.58984 1.3164 1.32422 1.3164m-444.73828 56.50782 54.05469-67.73438c.42578-.53125.04296-1.32422-.63672-1.32422h-13.51563c-1.05859 0-2.0664.48828-2.72656 1.31641l-38.34766 48.04687v-48.04687c0-.73438-.58984-1.32422-1.32031-1.32422h-10.55469c-.73047 0-1.32031.58984-1.32031 1.32422v67.73437c0 .73438.58984 1.32422 1.32031 1.32422h10.32422c1.0586 0 2.0586-.48437 2.72266-1.3164m38.10937 0 18.59375-23.29688 18.59375 23.29688c.66016.83203 1.66797 1.3164 2.73047 1.3164h10.32031c.73438 0 1.32422-.58984 1.32422-1.32422v-67.73437c0-.72656-.58984-1.32422-1.32422-1.32422h-8.65625c-2.12109 0-4.1289.96484-5.45703 2.625l-53.00781 66.42578c-.42578.53125-.04297 1.32422.63672 1.32422h13.51562c1.06641.00781 2.06641-.47656 2.73047-1.30859m38.35938-49.48829v31.20704l-12.45313-15.60157zm301.80859 49.47266-54.05078-67.73437c-.66016-.82813-1.66406-1.3125-2.72266-1.31641h-10.33203c-.73047 0-1.32031.58984-1.32031 1.32422v67.73437c0 .73438.58984 1.32422 1.32031 1.32422h10.32422c1.0586 0 2.06641-.48437 2.72266-1.3164l18.59375-23.29688 18.58984 23.29688c.66406.83203 1.66406 1.3164 2.72656 1.3164h13.51563c.67969 0 1.05859-.79297.63281-1.33203m-42.78906-33.86719-12.45703 15.60938v-31.21485zm-148.74609-36.9375c-20.375 0-36.89063 16.53907-36.89063 36.94532s16.51563 36.94921 36.89063 36.94921c20.3789 0 36.89453-16.54296 36.89453-36.94921.00781-20.40625-16.51563-36.94532-36.89453-36.94532m0 61.33594c-13.08985 0-23.69532-10.92187-23.69532-24.39062s10.60547-24.39844 23.69532-24.39844c13.09375 0 23.69921 10.92187 23.69921 24.39844.00782 13.46875-10.60546 24.39062-23.69921 24.39062m234.3125-58.25781v48.04687l-38.34766-48.05468c-.66406-.82813-1.66406-1.3125-2.72656-1.31641h-10.33594c-.72656 0-1.32031.58984-1.32031 1.32422v32.64062c0 .79297.26562 1.5625.76562 2.1836l10.98047 13.76172c.48438.60546 1.45703.26171 1.45703-.50782v-28.40625l38.35547 48.07032c.66016.83203 1.66406 1.3164 2.72266 1.3164h10.32422c.73046 0 1.32031-.58984 1.32031-1.32422v-67.73437c0-.72656-.58985-1.32422-1.32031-1.32422h-10.55469c-.73047 0-1.32031.59766-1.32031 1.32422m-128.94532 14.67969v-14.67969c0-.73438-.58984-1.32422-1.32031-1.32422h-54.01562c-.73047 0-1.32032.58984-1.32032 1.32422v67.73437c0 .73438.58985 1.32422 1.32032 1.32422h10.55468c.73047 0 1.32032-.58984 1.32032-1.32422v-56.49218h30.26562l-20.42969 25.60937c-.3789.47656-.3789 1.16406 0 1.65234l23.33985 29.2461c.66406.83203 1.66406 1.3164 2.72656 1.3164h13.51562c.67969 0 1.0586-.79296.63282-1.32421l-23.98828-30.05469 16.6289-20.8086c.49219-.63671.76953-1.40625.76953-2.19921m-185.27343 54.3789h31.32031c1.05859 0 2.0664-.48437 2.72265-1.3164l7.91016-9.91797c.42578-.53125.04688-1.32422-.63281-1.32422h-29.44531v-56.5c0-.73438-.58985-1.32422-1.32032-1.32422h-10.55468c-.73047 0-1.32032.58984-1.32032 1.32422v67.73437c0 .72657.59766 1.32422 1.32032 1.32422"/>
+        </svg>
+      </header>
+      <div class="s1c">
+        <p class="en">🌹Let's play a valorant🌹</p>
+        <h1 class="cn">❤️～我们<br>打瓦啦～❤️</h1>
       </div>
     </section>
 
-    <section class="statement reveal" style="--d:860">
-      <p class="l1">想跟你一起</p>
-      <p class="l2">暴力殴打对手</p>
+    <section class="beat s2">
+      <div class="kai">
+        <p>🌆喜相逢佳期已定，敬备喜筵</p>
+        <p>诚邀您一起上号打瓦🌆</p>
+      </div>
+    </section>
+
+    <section class="beat s3">
+      <div class="climax">
+        <p class="time">20:00</p>
+        <p class="date">2026.10.15</p>
+        <p class="lunar">丙午年九月初六</p>
+        <div class="hair" aria-hidden="true"></div>
+        <p class="place">莲花古城卷帘门</p>
+      </div>
+    </section>
+
+    <section class="beat s4">
+      <div class="statement">
+        <p class="l1">想跟你一起</p>
+        <p class="l2">暴力殴打对手</p>
+      </div>
     </section>
   </main>
 
@@ -248,6 +247,17 @@
       document.body.classList.add('opened');
       document.body.classList.remove('locked');
       setTimeout(function(){ cover.remove(); }, 950);
+
+      /* 封面退场后，逐屏滚动渐显 */
+      var beats = document.querySelectorAll('.beat');
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, {threshold:.3});
+      setTimeout(function(){
+        beats.forEach(function(b){ io.observe(b); });
+      }, 300);
     }
 
     cover.addEventListener('click', openInvite);
