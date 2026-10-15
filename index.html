@@ -37,8 +37,9 @@
       radial-gradient(140% 90% at 50% -12%, var(--paper-hi) 0%, var(--paper) 52%, var(--paper-deep) 105%);
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
+    -webkit-tap-highlight-color:transparent;
   }
-  body.locked{overflow:hidden;height:100dvh}
+  body.locked{overflow:hidden;height:100vh;height:100dvh}
   button{font-family:inherit}
 
   /* 纸面颗粒（固定层） */
@@ -57,6 +58,7 @@
   }
   .cover.open{transform:translateY(-103%);opacity:0}
   .cover:focus-visible{outline:3px solid var(--gold);outline-offset:-8px}
+  .cover,.mute{touch-action:manipulation}
   .cover-icon{width:128px;height:128px;fill:var(--gold)}
   .cover-hint{
     margin-top:44px;font-size:13px;letter-spacing:.5em;text-indent:.5em;color:var(--ink-dim);
@@ -72,6 +74,7 @@
   }
 
   .beat{
+    min-height:100vh;
     min-height:100dvh;
     display:flex;flex-direction:column;
     opacity:0;transform:translateY(28px);
@@ -91,13 +94,18 @@
   }
   .s1c .cn{
     margin-top:18px;
-    font-size:clamp(42px,13vw,56px);font-weight:900;letter-spacing:.03em;
+    font-size:clamp(34px,11vw,56px);font-weight:900;letter-spacing:.03em;
     color:var(--gold);line-height:1.4;
   }
 
-  /* --- 屏 2：正文→高潮→收尾（楷体引子 / 时间压顶 / 右下宣言） --- */
-  .s2{align-items:center;justify-content:center;text-align:center}
+  /* --- 屏 2：正文→高潮→收尾（楷体引子 / 时间压顶 / 右下宣言） ---
+     居中用 margin:auto 实现：内容超出一屏时自动退化为正常流，避免 flex 居中裁切顶部 */
+  .s2{
+    align-items:center;justify-content:flex-start;text-align:center;
+    padding-top:6vh;padding-bottom:calc(40px + env(safe-area-inset-bottom));
+  }
   .s2 .kai{
+    margin-top:auto;
     font-family:var(--kai);font-size:20px;font-weight:700;line-height:2.4;color:var(--ink);
   }
   .climax{position:relative;z-index:1;margin-top:44px}
@@ -123,7 +131,7 @@
   .climax .place{font-size:23px;font-weight:900;color:var(--ink);letter-spacing:.06em}
 
   /* --- 收尾（右下角宣言，与上段同屏） --- */
-  .statement{align-self:flex-end;text-align:right;margin-top:56px}
+  .statement{align-self:flex-end;text-align:right;margin-top:56px;margin-bottom:auto}
   .statement .l1{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:.06em}
   .statement .l2{
     margin-top:10px;font-size:clamp(32px,9.5vw,42px);font-weight:900;
@@ -155,6 +163,12 @@
     .climax .date{font-size:34px}
     .climax .place{font-size:26px}
     .statement .l1{font-size:25px}
+  }
+
+  /* ---------- 矮屏：封面缩小 ---------- */
+  @media (max-height:520px){
+    .cover-icon{width:92px;height:92px}
+    .cover-hint{margin-top:26px}
   }
 
   /* ---------- 矮屏：压缩留白，保证一屏装下 ---------- */
@@ -248,16 +262,20 @@
       document.body.classList.remove('locked');
       setTimeout(function(){ cover.remove(); }, 950);
 
-      /* 封面退场后，逐屏滚动渐显 */
+      /* 封面退场后，逐屏滚动渐显（旧内核不支持 IO 时直接显示，避免白屏） */
       var beats = document.querySelectorAll('.beat');
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-        });
-      }, {threshold:.3});
-      setTimeout(function(){
-        beats.forEach(function(b){ io.observe(b); });
-      }, 300);
+      if('IntersectionObserver' in window){
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+          });
+        }, {threshold:.15});
+        setTimeout(function(){
+          beats.forEach(function(b){ io.observe(b); });
+        }, 300);
+      }else{
+        beats.forEach(function(b){ b.classList.add('in'); });
+      }
     }
 
     cover.addEventListener('click', openInvite);
