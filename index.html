@@ -14,7 +14,7 @@
 <style>
   /* ============ 设计系统 ============
      主题：红纸喜帖 × 无畏契约，一屏一景的翻页式 h5 请柬
-     结构：四屏四拍（身份→正文→高潮→收尾），每屏一个主元素，滚动渐显
+     结构：两屏（身份→正文·高潮·收尾合一），标题屏与内容屏各占一屏，滚动渐显
      单一强调色：烫金；图层 z-index：poster 1 / mute 30 / cover 40 / grain 60 */
   :root{
     --paper:#A11228;   /* 红纸面 */
@@ -95,22 +95,19 @@
     color:var(--gold);line-height:1.4;
   }
 
-  /* --- 屏 2：正文（楷体居中，大留白） --- */
+  /* --- 屏 2：正文→高潮→收尾（楷体引子 / 时间压顶 / 右下宣言） --- */
   .s2{align-items:center;justify-content:center;text-align:center}
   .s2 .kai{
-    font-family:var(--kai);font-size:21px;font-weight:700;line-height:2.6;color:var(--ink);
+    font-family:var(--kai);font-size:20px;font-weight:700;line-height:2.4;color:var(--ink);
   }
-
-  /* --- 屏 3：高潮（时间压顶的信息簇） --- */
-  .s3{position:relative;align-items:center;justify-content:center;text-align:center}
-  .s3::before{
-    content:"";position:absolute;left:50%;top:50%;z-index:0;
+  .climax{position:relative;z-index:1;margin-top:44px}
+  .climax::before{
+    content:"";position:absolute;left:50%;top:50%;z-index:-1;
     transform:translate(-50%,-50%);
-    width:340px;height:340px;
+    width:min(340px,100vw);height:min(340px,100vw);
     background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M23.792 2.152a.252.252 0 0 0-.098.083c-3.384 4.23-6.769 8.46-10.15 12.69-.107.093-.025.288.119.265 2.439.003 4.877 0 7.316.001a.66.66 0 0 0 .552-.25c.774-.967 1.55-1.934 2.324-2.903a.72.72 0 0 0 .144-.49c-.002-3.077 0-6.153-.003-9.23.016-.11-.1-.206-.204-.167zM.077 2.166c-.077.038-.074.132-.076.205.002 3.074.001 6.15.001 9.225a.679.679 0 0 0 .158.463l7.64 9.55c.12.152.308.25.505.247 2.455 0 4.91.003 7.365 0 .142.02.222-.174.116-.265C10.661 15.176 5.526 8.766.4 2.35c-.08-.094-.174-.272-.322-.1' fill='%23EAC381'/%3E%3C/svg%3E") no-repeat;
     background-size:contain;opacity:.08;pointer-events:none;
   }
-  .climax{position:relative;z-index:1}
   .climax .time{
     font-size:clamp(84px,27vw,112px);font-weight:900;line-height:1;
     color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:.01em;
@@ -125,10 +122,10 @@
   .climax .hair{width:48px;height:1px;background:rgba(232,197,129,.5);margin:26px auto}
   .climax .place{font-size:23px;font-weight:900;color:var(--ink);letter-spacing:.06em}
 
-  /* --- 屏 4：收尾（右下角宣言） --- */
-  .s4{justify-content:flex-end;align-items:flex-end;text-align:right;padding-bottom:9vh}
-  .s4 .l1{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:.06em}
-  .s4 .l2{
+  /* --- 收尾（右下角宣言，与上段同屏） --- */
+  .statement{align-self:flex-end;text-align:right;margin-top:56px}
+  .statement .l1{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:.06em}
+  .statement .l2{
     margin-top:10px;font-size:clamp(32px,9.5vw,42px);font-weight:900;
     color:var(--gold);letter-spacing:.05em;line-height:1.3;
   }
@@ -157,7 +154,16 @@
     .s2 .kai{font-size:23px}
     .climax .date{font-size:34px}
     .climax .place{font-size:26px}
-    .s4 .l1{font-size:25px}
+    .statement .l1{font-size:25px}
+  }
+
+  /* ---------- 矮屏：压缩留白，保证一屏装下 ---------- */
+  @media (max-height:620px){
+    .s2 .kai{font-size:18px;line-height:2.2}
+    .climax{margin-top:26px}
+    .climax .time{font-size:76px}
+    .climax .date{font-size:26px}
+    .statement{margin-top:30px}
   }
 
   /* ---------- 无障碍 ---------- */
@@ -195,9 +201,6 @@
         <p>🌆喜相逢佳期已定，敬备喜筵</p>
         <p>诚邀您一起上号打瓦🌆</p>
       </div>
-    </section>
-
-    <section class="beat s3">
       <div class="climax">
         <p class="time">20:00</p>
         <p class="date">2026.10.15</p>
@@ -205,9 +208,6 @@
         <div class="hair" aria-hidden="true"></div>
         <p class="place">莲花古城卷帘门</p>
       </div>
-    </section>
-
-    <section class="beat s4">
       <div class="statement">
         <p class="l1">想跟你一起</p>
         <p class="l2">暴力殴打对手</p>
