@@ -5,173 +5,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>打瓦请柬 · Let's play a VALORANT</title>
 <meta name="description" content="喜相逢佳期已定，敬备喜筵。诚邀您一起上号打瓦。2026年10月15日 20:00，莲花古城卷帘门。">
-<meta name="theme-color" content="#A11228">
+<meta name="theme-color" content="#FDFCF9">
 <meta property="og:title" content="打瓦请柬 · Let's play a VALORANT">
 <meta property="og:description" content="喜相逢佳期已定，敬备喜筵。2026年10月15日 20:00，莲花古城卷帘门，诚邀您一起上号打瓦。">
 <meta property="og:image" content="https://morningluu.github.io/valorant-wedding-invite/assets/share-card.jpg">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23A11228'/%3E%3Cpath d='M76 24 46 72 24 36h18l4 8 12-20z' fill='%23EAC381'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23FDFCF9'/%3E%3Cpath d='M76 24 46 72 24 36h18l4 8 12-20z' fill='%23C21E38'/%3E%3C/svg%3E">
 <style>
   /* ============ 设计系统 ============
-     主题：中式红纸喜帖 × 无畏契约，亮红纸底 + 烫金，全直角（印刷语言）
-     图层 z-index：poster 1 / mute 30 / cover 40 / grain 60
-     字体：宋体系统栈（零网络依赖），正文竖排用楷体栈 */
+     主题：白纸喜帖 × 无畏契约，极简排印海报
+     单一强调色：中国电竞红，全页锁定；无印章、无边框装饰
+     图层 z-index：poster 1 / watermark 0 / mute 30 / cover 40 / grain 60 */
   :root{
-    --paper:#A11228;      /* 红纸底 */
-    --paper-hi:#B41E34;   /* 纸面高光 */
-    --paper-deep:#8A0F21; /* 纸面暗角 */
-    --gold:#EAC381;       /* 烫金（仅大字号文字，对比度 4.4:1） */
-    --gold-dim:#C89B5E;   /* 金线、边框 */
-    --ink:#F6E7C9;        /* 正文纸色字（对比度 6.6:1） */
-    --ink-dim:#E2C79E;    /* 次级文字 */
+    --paper:#FDFCF9;   /* 暖白纸面 */
+    --ink:#1B1B1F;     /* 墨色正文 */
+    --red:#C21E38;     /* 唯一强调色（对比度 5.9:1） */
+    --gray:#6B7280;    /* 次级标签 */
     --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC","STSong","SimSun",serif;
     --kai:"Kaiti SC","STKaiti","KaiTi","Songti SC","SimSun",serif;
-    --sans:"PingFang SC","Noto Sans CJK SC","Microsoft YaHei","Segoe UI",sans-serif;
+    --sans:-apple-system,"Segoe UI","PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{min-height:100%}
   body{
     font-family:var(--serif);
     color:var(--ink);
-    background:
-      radial-gradient(140% 90% at 50% -12%, var(--paper-hi) 0%, var(--paper) 52%, var(--paper-deep) 105%);
+    background:var(--paper);
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
   body.locked{overflow:hidden;height:100dvh}
   button{font-family:inherit}
 
-  /* 红纸颗粒（固定层，仅此一层，不随内容滚动） */
-  .grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.075;mix-blend-mode:overlay;
+  /* 纸面颗粒（固定层） */
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.045;mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* ============ 封面 ============ */
+  /* ============ 封面：一个图标 ============ */
   .cover{
     position:fixed;inset:0;z-index:40;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    background:
-      radial-gradient(140% 90% at 50% -12%, var(--paper-hi) 0%, var(--paper) 52%, var(--paper-deep) 105%);
+    background:var(--paper);
     cursor:pointer;
     transition:transform .85s cubic-bezier(.76,0,.24,1), opacity .45s ease .2s;
   }
   .cover.open{transform:translateY(-103%);opacity:0}
-  .cover:focus-visible{outline:3px solid var(--gold);outline-offset:-8px}
-  .cover-tag{
-    font-family:var(--sans);font-size:11px;font-weight:600;color:var(--gold-dim);
-    letter-spacing:.34em;text-indent:.34em;margin-bottom:34px;
-  }
-  .cover-seal{
-    width:132px;height:132px;display:grid;place-items:center;
-    border:2px solid var(--gold);outline:1px solid var(--gold-dim);outline-offset:6px;
-    transform:rotate(-4deg);
-    background:linear-gradient(140deg,var(--paper-deep),#6E0C1B);
-    box-shadow:inset 0 0 0 6px var(--paper);
-    animation:seal 3.2s ease-in-out infinite;
-  }
-  .cover-seal svg{width:64px;height:64px;fill:var(--gold)}
-  @keyframes seal{0%,100%{transform:rotate(-4deg) scale(1)}50%{transform:rotate(-4deg) scale(1.02)}}
-  .cover-title{
-    margin-top:44px;font-size:46px;font-weight:900;letter-spacing:.38em;text-indent:.38em;color:var(--ink);
-  }
+  .cover:focus-visible{outline:3px solid var(--red);outline-offset:-8px}
+  .cover-icon{width:128px;height:128px;fill:var(--red)}
   .cover-hint{
-    margin-top:26px;font-size:14px;letter-spacing:.5em;text-indent:.5em;color:var(--gold);
+    margin-top:44px;font-size:13px;letter-spacing:.5em;text-indent:.5em;color:var(--red);
     animation:hint 2.4s ease-in-out infinite;
   }
-  @keyframes hint{0%,100%{opacity:.55}50%{opacity:1}}
+  @keyframes hint{0%,100%{opacity:.5}50%{opacity:1}}
 
-  /* ============ 内页 ============ */
+  /* ============ 内页：排印海报 ============ */
   .poster{
     position:relative;z-index:1;
     max-width:480px;margin:0 auto;min-height:100dvh;
-    padding:calc(28px + env(safe-area-inset-top)) 24px 44px;
+    padding:calc(30px + env(safe-area-inset-top)) 28px 56px;
   }
-  .poster .head{display:flex;justify-content:space-between;align-items:flex-start}
-  .head .vlogo{width:150px;fill:var(--gold)}
-  .head .vtag{
-    writing-mode:vertical-rl;font-size:12px;letter-spacing:.3em;color:var(--ink-dim);
-    padding-top:6px;
-  }
+  .head .vlogo{width:150px;fill:var(--ink)}
 
-  .hero{margin-top:46px}
-  .hero h1{font-size:21px;font-weight:700;color:var(--gold);letter-spacing:.03em}
-  .hero .cn{margin-top:12px;font-size:24px;font-weight:900;letter-spacing:.08em}
+  .hero{margin-top:52px}
+  .hero h1{
+    font-family:var(--sans);font-weight:900;font-size:21px;letter-spacing:.02em;color:var(--ink);
+  }
+  .hero .cn{margin-top:12px;font-size:27px;font-weight:900;letter-spacing:.08em;color:var(--red)}
 
-  .divider{position:relative;width:64%;height:1px;background:var(--gold-dim);margin:40px 0 0;opacity:.8}
-  .divider::after{
-    content:"";position:absolute;left:0;top:50%;width:8px;height:8px;
-    transform:translateY(-50%) rotate(45deg);background:var(--gold-dim);
-  }
+  .rule{width:48px;height:3px;background:var(--red);margin:36px 0 0}
 
-  /* ---------- 正文：登机牌 + 竖排喜帖 ---------- */
-  .body-grid{position:relative;margin-top:36px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:stretch}
-  .body-grid::before{
-    content:"囍";position:absolute;right:-14px;top:-56px;z-index:0;
-    font-size:190px;font-weight:900;color:var(--gold);opacity:.07;pointer-events:none;
-  }
+  .kai{margin-top:26px;font-family:var(--kai);font-size:18px;font-weight:700;line-height:2;color:var(--ink)}
 
-  .ticket{
-    position:relative;z-index:1;background:linear-gradient(180deg,#96122A,#8A0F21);
-    border:1px solid var(--gold-dim);padding:20px 16px 0;
-    box-shadow:inset 0 0 34px rgba(0,0,0,.22);
+  /* ---------- 关键信息：大数字排印 ---------- */
+  .info{position:relative;margin-top:44px}
+  .info::before{
+    content:"";position:absolute;right:-70px;top:-30px;z-index:0;width:300px;height:300px;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M23.792 2.152a.252.252 0 0 0-.098.083c-3.384 4.23-6.769 8.46-10.15 12.69-.107.093-.025.288.119.265 2.439.003 4.877 0 7.316.001a.66.66 0 0 0 .552-.25c.774-.967 1.55-1.934 2.324-2.903a.72.72 0 0 0 .144-.49c-.002-3.077 0-6.153-.003-9.23.016-.11-.1-.206-.204-.167zM.077 2.166c-.077.038-.074.132-.076.205.002 3.074.001 6.15.001 9.225a.679.679 0 0 0 .158.463l7.64 9.55c.12.152.308.25.505.247 2.455 0 4.91.003 7.365 0 .142.02.222-.174.116-.265C10.661 15.176 5.526 8.766.4 2.35c-.08-.094-.174-.272-.322-.1' fill='%23C21E38'/%3E%3C/svg%3E") no-repeat;
+    background-size:contain;opacity:.06;pointer-events:none;
   }
-  .ticket::before,.ticket::after{
-    content:"";position:absolute;top:-11px;width:20px;height:22px;background:inherit;
-  }
-  .ticket::before{left:-11px;border-radius:0 0 11px 0;border-right:1px solid var(--gold-dim);border-bottom:1px solid var(--gold-dim)}
-  .ticket::after{right:-11px;border-radius:0 0 0 11px;border-left:1px solid var(--gold-dim);border-bottom:1px solid var(--gold-dim)}
-  .ticket-head{
-    display:flex;justify-content:space-between;align-items:baseline;
-    padding-bottom:12px;border-bottom:1px dashed var(--gold-dim);
-  }
-  .ticket-head .t{font-size:18px;font-weight:900;letter-spacing:.14em}
-  .ticket-head .e{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.22em;color:var(--gold-dim)}
-  .ticket-rows{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;padding:16px 0 18px}
-  .tr .k{display:block;font-size:11px;letter-spacing:.28em;text-indent:.28em;color:var(--gold-dim);margin-bottom:5px}
-  .tr .v{font-size:19px;font-weight:700;letter-spacing:.02em;line-height:1.35}
-  .tr .v.num{font-variant-numeric:tabular-nums}
-  .ticket .barcode{
-    height:34px;margin:0 -16px;
-    background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 5px,var(--ink) 5px 6px,transparent 6px 11px);
-    opacity:.85;
-  }
-
-  .vtext{
-    writing-mode:vertical-rl;z-index:1;
-    font-family:var(--kai);font-size:19px;font-weight:700;letter-spacing:.18em;line-height:2.1;
-    border-left:1px solid var(--gold-dim);padding-left:16px;
-    display:flex;flex-direction:column;justify-content:center;gap:14px;
-  }
+  .info .row{position:relative;z-index:1;margin-top:26px}
+  .info .row:first-child{margin-top:0}
+  .info .k{display:block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.3em;color:var(--gray);margin-bottom:6px}
+  .info .v{font-weight:900;letter-spacing:.02em}
+  .info .v.num{font-variant-numeric:tabular-nums}
+  .row.date .v{font-size:31px;color:var(--ink)}
+  .row.lunar .v{font-size:21px;color:var(--ink)}
+  .row.time .v{font-size:64px;line-height:1.05;color:var(--red)}
+  .row.addr .v{font-size:24px;color:var(--ink)}
 
   /* ---------- 收尾 ---------- */
-  .statement{margin-top:44px}
-  .statement p{font-weight:900;letter-spacing:.06em;line-height:1.5}
-  .statement .l1{font-size:21px;color:var(--ink-dim)}
-  .statement .l2{font-size:28px;color:var(--ink)}
-
-  .foot{margin-top:44px;text-align:center}
-  .stamps{display:flex;justify-content:center;gap:30px}
-  .stamp{
-    width:58px;height:58px;display:grid;place-items:center;
-    background:var(--paper-deep);border:1.5px solid var(--gold);
-    outline:1px solid var(--gold-dim);outline-offset:3px;
-    transform:rotate(2.5deg);font-size:17px;font-weight:900;letter-spacing:.1em;
-  }
-  .stamp.s2{transform:rotate(-2.5deg)}
-  .credit{margin-top:26px;font-size:11px;color:var(--ink-dim);line-height:2;letter-spacing:.02em}
-  #credit-note{display:block;opacity:.75}
+  .statement{margin-top:56px}
+  .statement p{font-weight:900;letter-spacing:.05em}
+  .statement .l1{font-size:23px;color:var(--ink)}
+  .statement .l2{margin-top:8px;font-size:36px;color:var(--red);line-height:1.3}
+  .xi{margin-top:44px;text-align:center;font-size:20px;font-weight:900;color:var(--red)}
 
   /* ---------- 音乐开关 ---------- */
   .mute{
     position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:30;
     width:44px;height:44px;display:grid;place-items:center;
-    border:1px solid var(--gold-dim);background:rgba(110,12,27,.78);
-    color:var(--gold);cursor:pointer;
+    border:1px solid rgba(194,30,56,.4);background:var(--paper);
+    color:var(--red);cursor:pointer;
   }
-  .mute:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .mute:focus-visible{outline:2px solid var(--red);outline-offset:2px}
   .mute svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .mute .bars{display:none;gap:2.5px;align-items:flex-end;height:14px}
-  .mute .bars i{width:3px;height:14px;background:var(--gold);animation:eq .9s ease-in-out infinite}
+  .mute .bars i{width:3px;height:14px;background:var(--red);animation:eq .9s ease-in-out infinite}
   .mute .bars i:nth-child(2){animation-delay:.18s}
   .mute .bars i:nth-child(3){animation-delay:.36s}
   .mute.on .bars{display:flex}
@@ -187,23 +127,21 @@
   @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
   /* ---------- 响应式 ---------- */
-  @media (max-width:379px){
-    .body-grid{grid-template-columns:1fr}
-    .vtext{writing-mode:horizontal-tb;border-left:none;border-top:1px solid var(--gold-dim);padding:14px 0 0;flex-direction:row;justify-content:space-between;font-size:16px}
-  }
   @media (min-width:768px){
-    .poster{max-width:520px;padding-top:calc(40px + env(safe-area-inset-top))}
+    .poster{max-width:520px;padding-top:calc(44px + env(safe-area-inset-top))}
     .head .vlogo{width:168px}
     .hero h1{font-size:24px}
-    .hero .cn{font-size:27px}
-    .statement .l1{font-size:24px}
-    .statement .l2{font-size:33px}
+    .hero .cn{font-size:30px}
+    .row.date .v{font-size:34px}
+    .row.time .v{font-size:72px}
+    .statement .l1{font-size:26px}
+    .statement .l2{font-size:40px}
   }
 
   /* ---------- 无障碍 ---------- */
   @media (prefers-reduced-motion:reduce){
     .cover{transition:none}
-    .cover-seal,.cover-hint,.mute.on .bars i{animation:none}
+    .cover-hint,.mute.on .bars i{animation:none}
     body.opened .reveal{animation:none;opacity:1}
   }
 </style>
@@ -211,13 +149,9 @@
 <body class="locked">
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- 封面：点击开启请柬（用户手势，同时启动音乐） -->
+  <!-- 封面：一个图标。点击开启请柬（用户手势，同时启动音乐） -->
   <div class="cover" id="cover" role="button" tabindex="0" aria-label="点击开启请柬并播放音乐">
-    <p class="cover-tag">WEDDING × VALORANT</p>
-    <div class="cover-seal" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M23.792 2.152a.252.252 0 0 0-.098.083c-3.384 4.23-6.769 8.46-10.15 12.69-.107.093-.025.288.119.265 2.439.003 4.877 0 7.316.001a.66.66 0 0 0 .552-.25c.774-.967 1.55-1.934 2.324-2.903a.72.72 0 0 0 .144-.49c-.002-3.077 0-6.153-.003-9.23.016-.11-.1-.206-.204-.167zM.077 2.166c-.077.038-.074.132-.076.205.002 3.074.001 6.15.001 9.225a.679.679 0 0 0 .158.463l7.64 9.55c.12.152.308.25.505.247 2.455 0 4.91.003 7.365 0 .142.02.222-.174.116-.265C10.661 15.176 5.526 8.766.4 2.35c-.08-.094-.174-.272-.322-.1"/></svg>
-    </div>
-    <div class="cover-title">请柬</div>
+    <svg class="cover-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.792 2.152a.252.252 0 0 0-.098.083c-3.384 4.23-6.769 8.46-10.15 12.69-.107.093-.025.288.119.265 2.439.003 4.877 0 7.316.001a.66.66 0 0 0 .552-.25c.774-.967 1.55-1.934 2.324-2.903a.72.72 0 0 0 .144-.49c-.002-3.077 0-6.153-.003-9.23.016-.11-.1-.206-.204-.167zM.077 2.166c-.077.038-.074.132-.076.205.002 3.074.001 6.15.001 9.225a.679.679 0 0 0 .158.463l7.64 9.55c.12.152.308.25.505.247 2.455 0 4.91.003 7.365 0 .142.02.222-.174.116-.265C10.661 15.176 5.526 8.766.4 2.35c-.08-.094-.174-.272-.322-.1"/></svg>
     <p class="cover-hint">轻触开启</p>
   </div>
 
@@ -226,7 +160,6 @@
       <svg class="vlogo" viewBox="0 0 515 74" role="img" aria-label="VALORANT 无畏契约">
         <path d="m459.10547 14.35156h18.42578l.05859 56.5c0 .72657.58985 1.32422 1.32422 1.32422l10.55078-.00781c.73438 0 1.32422-.58984 1.32422-1.32422l-.0625-56.49219h23.10938c.67969 0 1.0664-.79297.63281-1.32422l-7.91016-9.91015c-.66015-.83203-1.66406-1.3125-2.72265-1.31641h-44.73047c-.73438 0-1.32422.58985-1.32422 1.32422v9.91016c0 .71875.58984 1.3164 1.32422 1.3164m-444.73828 56.50782 54.05469-67.73438c.42578-.53125.04296-1.32422-.63672-1.32422h-13.51563c-1.05859 0-2.0664.48828-2.72656 1.31641l-38.34766 48.04687v-48.04687c0-.73438-.58984-1.32422-1.32031-1.32422h-10.55469c-.73047 0-1.32031.58984-1.32031 1.32422v67.73437c0 .73438.58984 1.32422 1.32031 1.32422h10.32422c1.0586 0 2.0586-.48437 2.72266-1.3164m38.10937 0 18.59375-23.29688 18.59375 23.29688c.66016.83203 1.66797 1.3164 2.73047 1.3164h10.32031c.73438 0 1.32422-.58984 1.32422-1.32422v-67.73437c0-.72656-.58984-1.32422-1.32422-1.32422h-8.65625c-2.12109 0-4.1289.96484-5.45703 2.625l-53.00781 66.42578c-.42578.53125-.04297 1.32422.63672 1.32422h13.51562c1.06641.00781 2.06641-.47656 2.73047-1.30859m38.35938-49.48829v31.20704l-12.45313-15.60157zm301.80859 49.47266-54.05078-67.73437c-.66016-.82813-1.66406-1.3125-2.72266-1.31641h-10.33203c-.73047 0-1.32031.58984-1.32031 1.32422v67.73437c0 .73438.58984 1.32422 1.32031 1.32422h10.32422c1.0586 0 2.06641-.48437 2.72266-1.3164l18.59375-23.29688 18.58984 23.29688c.66406.83203 1.66406 1.3164 2.72656 1.3164h13.51563c.67969 0 1.05859-.79297.63281-1.33203m-42.78906-33.86719-12.45703 15.60938v-31.21485zm-148.74609-36.9375c-20.375 0-36.89063 16.53907-36.89063 36.94532s16.51563 36.94921 36.89063 36.94921c20.3789 0 36.89453-16.54296 36.89453-36.94921.00781-20.40625-16.51563-36.94532-36.89453-36.94532m0 61.33594c-13.08985 0-23.69532-10.92187-23.69532-24.39062s10.60547-24.39844 23.69532-24.39844c13.09375 0 23.69921 10.92187 23.69921 24.39844.00782 13.46875-10.60546 24.39062-23.69921 24.39062m234.3125-58.25781v48.04687l-38.34766-48.05468c-.66406-.82813-1.66406-1.3125-2.72656-1.31641h-10.33594c-.72656 0-1.32031.58984-1.32031 1.32422v32.64062c0 .79297.26562 1.5625.76562 2.1836l10.98047 13.76172c.48438.60546 1.45703.26171 1.45703-.50782v-28.40625l38.35547 48.07032c.66016.83203 1.66406 1.3164 2.72266 1.3164h10.32422c.73046 0 1.32031-.58984 1.32031-1.32422v-67.73437c0-.72656-.58985-1.32422-1.32031-1.32422h-10.55469c-.73047 0-1.32031.59766-1.32031 1.32422m-128.94532 14.67969v-14.67969c0-.73438-.58984-1.32422-1.32031-1.32422h-54.01562c-.73047 0-1.32032.58984-1.32032 1.32422v67.73437c0 .73438.58985 1.32422 1.32032 1.32422h10.55468c.73047 0 1.32032-.58984 1.32032-1.32422v-56.49218h30.26562l-20.42969 25.60937c-.3789.47656-.3789 1.16406 0 1.65234l23.33985 29.2461c.66406.83203 1.66406 1.3164 2.72656 1.3164h13.51562c.67969 0 1.0586-.79296.63282-1.32421l-23.98828-30.05469 16.6289-20.8086c.49219-.63671.76953-1.40625.76953-2.19921m-185.27343 54.3789h31.32031c1.05859 0 2.0664-.48437 2.72265-1.3164l7.91016-9.91797c.42578-.53125.04688-1.32422-.63281-1.32422h-29.44531v-56.5c0-.73438-.58985-1.32422-1.32032-1.32422h-10.55468c-.73047 0-1.32032.58984-1.32032 1.32422v67.73437c0 .72657.59766 1.32422 1.32032 1.32422"/>
       </svg>
-      <span class="vtag">无畏契约</span>
     </header>
 
     <section class="hero">
@@ -234,43 +167,34 @@
       <p class="cn reveal" style="--d:580">❤️～我们打瓦啦～❤️</p>
     </section>
 
-    <div class="divider reveal" style="--d:660" aria-hidden="true"></div>
+    <div class="rule reveal" style="--d:660" aria-hidden="true"></div>
 
-    <section class="body-grid">
-      <div class="ticket reveal" style="--d:660">
-        <div class="ticket-head">
-          <span class="t">上号登机牌</span>
-          <span class="e">WEDDING PASS</span>
-        </div>
-        <div class="ticket-rows">
-          <div class="tr"><span class="k">日期</span><span class="v num">2026.10.15</span></div>
-          <div class="tr"><span class="k">农历</span><span class="v">丙午年九月初六</span></div>
-          <div class="tr"><span class="k">时间</span><span class="v num">20:00</span></div>
-          <div class="tr"><span class="k">地址</span><span class="v">莲花古城卷帘门</span></div>
-        </div>
-        <div class="barcode" aria-hidden="true"></div>
+    <section class="kai reveal" style="--d:660">
+      <p>🌆喜相逢佳期已定，敬备喜筵</p>
+      <p>诚邀您一起上号打瓦🌆</p>
+    </section>
+
+    <section class="info">
+      <div class="row date reveal" style="--d:740">
+        <span class="k">日期</span><span class="v num">2026.10.15</span>
       </div>
-      <div class="vtext reveal" style="--d:740">
-        <p>🌆喜相逢佳期已定，敬备喜筵</p>
-        <p>诚邀您一起上号打瓦🌆</p>
+      <div class="row lunar reveal" style="--d:800">
+        <span class="k">农历</span><span class="v">丙午年九月初六</span>
+      </div>
+      <div class="row time reveal" style="--d:860">
+        <span class="k">时间</span><span class="v num">20:00</span>
+      </div>
+      <div class="row addr reveal" style="--d:920">
+        <span class="k">地址</span><span class="v">莲花古城卷帘门</span>
       </div>
     </section>
 
-    <section class="statement reveal" style="--d:820">
+    <section class="statement reveal" style="--d:980">
       <p class="l1">想跟你一起</p>
       <p class="l2">暴力殴打对手</p>
     </section>
 
-    <footer class="foot reveal" style="--d:900">
-      <div class="stamps" aria-hidden="true">
-        <span class="stamp">敬邀</span>
-        <span class="stamp s2">上号</span>
-      </div>
-      <p class="credit">
-        ♪ Die For You · VALORANT Champions 2021（Grabbitz）
-        <span id="credit-note">本页为娱乐性质邀请 · 非商业用途</span>
-      </p>
-    </footer>
+    <div class="xi reveal" style="--d:1040" aria-hidden="true">囍</div>
   </main>
 
   <button class="mute" id="mute" type="button" aria-pressed="false" aria-label="音乐开关">
@@ -325,11 +249,6 @@
 
     bgm.addEventListener('playing', function(){ setUI(true); });
     bgm.addEventListener('pause', function(){ setUI(false); });
-    bgm.addEventListener('error', function(){
-      var note = document.getElementById('credit-note');
-      if(note) note.textContent = '音乐加载失败，请稍后刷新重试';
-      setUI(false);
-    });
   })();
 </script>
 </body>
