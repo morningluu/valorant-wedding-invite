@@ -12,17 +12,17 @@ INK = "#F6E7C9"
 def font(size):
     return ImageFont.truetype(FONT, size, index=0)
 
-# ---------- 分享卡片 1200x630（白纸底红字，与页面一致） ----------
+# ---------- 分享卡片 1200x630（红纸底烫金字，与页面一致） ----------
 W, H = 1200, 630
-img = Image.new("RGB", (W, H), "#FDFCF9")
+img = Image.new("RGB", (W, H), RED)
 d = ImageDraw.Draw(img)
-# 红线双层框
-d.rectangle([30, 30, W-30, H-30], outline=RED, width=4)
-d.rectangle([46, 46, W-46, H-46], outline=RED, width=1)
-# 中心标题：红字 + 墨色副题
-d.text((W/2, 200), "打瓦请柬", font=font(160), fill=RED, anchor="mm")
-d.text((W/2, 396), "LET'S PLAY A VALORANT", font=font(44), fill="#1B1B1F", anchor="mm")
-d.text((W/2, 476), "2026.10.15  20:00  莲花古城卷帘门", font=font(36), fill="#6B7280", anchor="mm")
+# 金线双层框
+d.rectangle([30, 30, W-30, H-30], outline=GOLD, width=4)
+d.rectangle([46, 46, W-46, H-46], outline=GOLD_DIM, width=1)
+# 中心标题：烫金 + 纸色副题
+d.text((W/2, 200), "打瓦请柬", font=font(160), fill=GOLD, anchor="mm")
+d.text((W/2, 396), "LET'S PLAY A VALORANT", font=font(44), fill=INK, anchor="mm")
+d.text((W/2, 476), "2026.10.15  20:00  莲花古城卷帘门", font=font(36), fill="#E2C79E", anchor="mm")
 img.save("assets/share-card.jpg", quality=90)
 
 # ---------- 二维码 ----------
